@@ -1,4 +1,8 @@
 # python_django_web
+## 需配合以下项目使用，
+- https://github.com/dpressel/rude-carnie
+- 基本运行命令是：
+  - python /home/lee/git/rude-carnie/guess.py --model_type inception --model_dir /home/lee/Downloads/22801 --filename test.jpg
 ## 使用前需修改pic_age/pic/views.py中的
 
 - str=('python /home/lee/git/rude-carnie/guess.py --model_type inception --model_dir /home/lee/Downloads/22801 --filename ' + filepath)
