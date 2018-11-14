@@ -12,6 +12,9 @@
 ## 修改后运行服务器：
 python manage.py runserver
 
+## 访问地址：
+- 
+
 ## git常用命令:
 - git init //把这个目录变成Git可以管理的仓库
 -　git add README.md //文件添加到仓库
