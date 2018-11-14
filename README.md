@@ -1,9 +1,9 @@
 # python_django_web
 ## 使用前需修改pic_age/pic/views.py中的
 
-str=('python /home/lee/git/rude-carnie/guess.py --model_type inception --model_dir /home/lee/Downloads/22801 --filename ' + filepath)
-        p=os.system(str)
-file_object = open('/home/lee/git/rude-carnie/log.txt')
+- str=('python /home/lee/git/rude-carnie/guess.py --model_type inception --model_dir /home/lee/Downloads/22801 --filename ' + filepath)
+- p=os.system(str)
+- file_object = open('/home/lee/git/rude-carnie/log.txt')
 改成对应目录
 ## 修改后运行服务器：
 python manage.py runserver
