@@ -20,7 +20,7 @@ python manage.py runserver
 
 -　git add README.md //文件添加到仓库
 
--　　git add . //不但可以跟单一文件，还可以跟通配符，更可以跟目录。一个点就把当前目录下所有未追踪的文件全部add了 
+-　　git add . //不但可以跟单一文件，还可以跟通配符，更可以跟目录。一个点就把当前目录下所有未追踪的文件全部add了 ,不可以添加空目录
 
 -　　git commit -m "first commit" //把文件提交到仓库
 
@@ -40,3 +40,6 @@ git rm test.txt
 git commit -m "remove test.txt"
 
 git pull
+复制到多个目录
+echo /home/aaronkilik/test/ /home/aaronkilik/tmp | xargs -n 1 cp -v /home/aaronkilik/bin/sys_info.sh
+
