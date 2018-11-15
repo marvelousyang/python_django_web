@@ -32,6 +32,11 @@ fatal: remote schedule already exists
 Updates were rejected because the remote contains work that you do
 - 删除文件
 rm test.txt
+
 git status
+
 git rm test.txt
+
 git commit -m "remove test.txt"
+
+git pull
