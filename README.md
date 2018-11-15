@@ -27,4 +27,11 @@ python manage.py runserver
 -　　git remote add origin git@github.com:yourName/yourPro.git //关联远程仓库
 
 -　　git push -u origin master //把本地库的所有内容推送到远程库上
-
+fatal: remote schedule already exists
+- git remote rm origin
+Updates were rejected because the remote contains work that you do
+- 删除文件
+rm test.txt
+git status
+git rm test.txt
+git commit -m "remove test.txt"
