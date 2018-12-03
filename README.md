@@ -10,7 +10,7 @@
 - file_object = open('/home/lee/git/rude-carnie/log.txt')
 改成对应目录
 ## 修改后运行服务器：
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 
 ## 访问地址：
 - localhost:8000
