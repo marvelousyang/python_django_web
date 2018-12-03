@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,6 +81,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
-    '/home/lee/git/pic_age/pic/templates',
+    '/home/lee/git/python_django_web/pic_age/pic/templates',
 )
 MEDIA_ROOT=os.path.join(BASE_DIR,r'static')
