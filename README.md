@@ -21,6 +21,11 @@ python manage.py runserver 0.0.0.0:8000
 -　git add README.md //文件添加到仓库
 
 -　　git add . //不但可以跟单一文件，还可以跟通配符，更可以跟目录。一个点就把当前目录下所有未追踪的文件全部add了 ,不可以添加空目录
+·  git add -A  提交所有变化
+
+·  git add -u  提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
+
+·  git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
 
 -　　git commit -m "first commit" //把文件提交到仓库
 
