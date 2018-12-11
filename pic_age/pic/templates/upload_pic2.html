@@ -1,0 +1,297 @@
+<html>
+    <head>
+        <title>
+            识别人脸年龄
+        </title>
+        <script src="../../static/jquery.min.js"></script>
+        <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+        <link rel="stylesheet"
+            href="../../static/bootstrap.min.css">
+        <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+        <link rel="stylesheet"
+            href="../../static/bootstrap-theme.min.css">
+        <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+        <script src="../../static/bootstrap.min.js"></script>            
+        <style>
+        *{
+            box-sizing: border-box;
+        }
+        #headOut{
+            background: #1E88E5;
+            max-width: 100vw;
+            position: relative;
+            overflow: hidden;
+            height: 550px;
+        }
+        #head {
+            background: linear-gradient(90deg, #2196F3, #1E88E5);
+            transform: skewY(-5deg) translateY(-90%);
+            width: 100vw;
+            height:550px;
+            position: absolute;
+            top: 0px;
+        }
+        #head1 {
+            transform: skewY(-5deg) translateY(76%);
+            bottom: 0px;
+            background: #fff;
+            width: 100vw;
+            height:550px;
+            position: absolute;
+        }
+        #head2{
+            background-color: #1E88E5;
+            z-index: 900;
+            width: 100%;
+        }
+        #content{
+            padding: 100px 20px 90px 20px;
+            flex-direction: row;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            max-width: 1040px;
+            margin: 0 auto;
+            color: #fff;
+            display: flex;
+            width: 100%;
+        }
+        /*
+        #face_pic{
+            box-shadow: 1px 1px 5px 0 rgba(26,26,67,.05), 39px 62.5px 125px -25px rgba(50,50,93,.5), 23.4px 37.5px 75px -37.5px rgba(0,0,0,.6);
+        }
+        */
+        #introduce{
+            padding-top: 100px;
+            font-size: 44px;
+        }
+        #subtext{
+            font-size: 24px;
+        }
+        #foot{
+            background-color: #1976D2;
+            color: rgba(255, 255, 255, 0.8);
+            width: 100%;
+            height: 100px;
+        }
+        .show {
+            height: 450px;
+            
+        }
+        .upload {
+            padding: 20px 20% 20px 20%;
+        }
+        #basic-addon1{
+            background-color: #265a88;
+            color: #fff;
+        }
+        #basic-addon1:hover{
+            cursor:pointer;
+            background-color: #09253d;
+            
+        }
+        .form-control{
+            height: 80px;
+        }
+        #loading{
+            width: 50px;
+            height: 50px;
+        }
+        </style>
+        
+        <script type="text/JavaScript">
+            
+        var option = {};
+
+
+        $(function(){
+            $("#file").change(function(){
+                var file = this.files[0];
+                //alert("文件大小:"+(file.size / 1024).toFixed(1)+"kB");
+                if (window.FileReader) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    //监听文件读取结束后事件
+                    reader.onloadend = function (e) {
+                        showXY(e.target.result,file.fileName);
+                    };
+                }
+            });
+            $("#file").change();
+        });
+        function showXY(source){
+            var img = document.getElementById("thumbPic");
+            img.src = source;
+            //alert("Width:"+img.width+", Height:"+img.height);
+            //$(".thumbnail").css("height",img.height);
+        }
+        function uploadImg() {
+            option.series[0].data = [];
+            option.title.text = "";
+            myChart.setOption(option);
+            //var file = $("#file")[0].files[0];
+            var formData = new FormData();
+            formData.append("file",$("#file")[0].files[0]);
+            $.ajax({
+            //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "text",//预期服务器返回的数据类型
+                url: "/uploadImg" ,//url
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    if(result){
+                        var res = [];
+                        var arr = result.split(';');
+                        var countnum = 0;
+                        for(var i=0;i<arr.length; i++){
+                            var aResult = arr[i];
+                            var oneArr = aResult.split('=');
+                            var temp = oneArr[0].replace("(","").replace(")","");
+                            var arrtmp = temp.split(",");
+                            if(oneArr[1] != 0){
+                                res.push({
+                                    name:arrtmp[0]+"岁～"+arrtmp[1]+"岁",
+                                    value:oneArr[1]
+                                });
+                            }
+                            if(oneArr[1] == 1){
+                                oneArr[1] = 0.98;
+                            }
+                            countnum = countnum + parseFloat(oneArr[1]);
+                        }
+                        if(countnum<1){
+                            res.push({
+                                name:"其他年龄段",
+                                value:1-countnum
+                            });
+                        }
+                        option.series[0].data = res;
+                    }
+                    option.title.text = "人脸年龄识别结果";
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                    console.log(result);//打印服务端返回的数据(调试用)
+                    if (result.resultCode == 200) {
+                        alert("SUCCESS");
+                    }
+                },
+                error : function(xhr,errorInfo,e) {
+                    alert("异常！");
+                    alert(errorInfo);
+                    alert(e);
+
+                },
+                beforeSend: function(){
+
+                    $("#loading").show();
+                },
+                complete:function(){
+                    $("#loading").hide();
+                }
+            });
+        }
+
+        
+    </script> 
+
+</head>
+    
+    <body>
+        <div class="container theme-showcase">
+            <div id="headOut">
+                
+                    <div id="head"></div>
+                    <div id="head1"></div>
+                    <header id="head2">
+                    </header>
+                    <div id="content">
+                        <div id="introduce" class="col-md-6">
+                            <p id="title" align="center">识别人脸年龄</p>
+                            <p id="subtext" align="center">基于inceptionV3</p>
+                        </div>
+                        <div class="col-md-6 thumbnail">
+                            <img id="face_pic" src="../../static/icon.jpg">  
+                        </div>
+                    </div>
+            </div>
+            
+            <div style="background: #f5f7f9;padding: 100px 20px 100px 20px;">
+                <h1 align="center">演示</h1>
+                <div class="row">
+                    <div class="col-md-6" enctype="multipart/form-data">
+                        <h2 align="center">上传图片</h2>
+                        <div class="thumbnail upload show">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1" onclick="$('#file').click();">选择文件</span>
+                                <input type="text" class="form-control" id="show_file" aria-describedby="basic-addon1">
+                            </div>
+                            <p>支持'.jpg', '.png', '.JPG', '.PNG', '.jpeg'</p>
+                            <input type="file" name="file" id="file"  accept=".jpeg" onchange="$('#show_file').val($('#file').val());" style="display: none">
+                            <div style="font-size: 40;width: 100%;margin: 30px 0px" class="btn btn-primary btn-lg" onclick="uploadImg()">上传</div>
+                        </div>
+                        <img id="loading" style="display: none;" src="../../static/loading.gif" alt="loading"/> 
+                    </div>
+                    <div class="col-md-6">
+                        <h2 align="center">图片内容</h2>
+                        <a href="#" class="thumbnail show">
+                            <img id="thumbPic" src="../../static/fff.jpg" alt="" width="200px" height="200px">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="padding: 100px 20px 100px 20px;">
+                <h1 align="center">演示结果</h1>
+                
+                <div id="main" style="height:600px;"></div>
+            </div>
+            <script src="../../static/echarts.min.js"></script>
+            <script type="text/javascript">
+                // 路径配置
+                var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        option = {
+            //backgroundColor: 'grey',
+
+            title : {
+                //text: '人脸年龄识别结果',
+                textStyle: {
+                    fontSize:'25',
+                    color:'orange'
+                },
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: '预测结果',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[],
+                    label: {
+                        normal: {
+                            textStyle: {
+                                fontSize:'20'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]   
+        };
+        </script>
+        </div>
+       
+    </body>
+</html>
