@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hello/$',upload),
     url(r'^uploadImg',uploadImg),
+    url(r'^back',back),
+    url( r'^static/(?P<path>.*)$', 'django.views.static.serve',{ 'document_root': settings.STATIC_URL }), 
     url(r'',upload),
 )

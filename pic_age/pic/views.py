@@ -13,6 +13,10 @@ def upload(request):
     t = get_template('upload_pic.html')
     html = t.render(Context({}))
     return HttpResponse(html)
+def back(request):
+    t = get_template('upload_pic2.html')
+    html = t.render(Context({}))
+    return HttpResponse(html)
 def uploadImg(request):
     if request.method == 'POST':
         f = request.FILES['file']
